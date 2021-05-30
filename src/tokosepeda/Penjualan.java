@@ -104,20 +104,26 @@ public class Penjualan extends javax.swing.JFrame {
   }// </editor-fold>//GEN-END:initComponents
 
   private void btnShowNotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowNotaActionPerformed
-    try {
-      String id = idBikeVal.getText();
+    String id = idBikeVal.getText();
+    Helpers helper = new Helpers();
 
-      new Service().decreaseStock(id);
-
-      Nota notaFrame = new Nota();
-      notaFrame.setTransactionId(id);
-
-      new Helpers().showFrame(notaFrame);
-
+    if (id.equals("0")) {
+      helper.showFrame(new TokoSepeda());
       this.dispose();
-    } catch (SQLException e) {
-      System.err.format("SQL State: %s\n%s\n", e.getSQLState(), e.getMessage());
-      new Helpers().alert("Terjadi kesalahan saat menyimpan data");
+    } else {
+      try {
+        new Service().decreaseStock(id);
+
+        Nota notaFrame = new Nota();
+        notaFrame.setTransactionId(id);
+
+        helper.showFrame(notaFrame);
+
+        this.dispose();
+      } catch (SQLException e) {
+        System.err.format("SQL State: %s\n%s\n", e.getSQLState(), e.getMessage());
+        new Helpers().alert("Terjadi kesalahan saat menyimpan data");
+      }
     }
   }//GEN-LAST:event_btnShowNotaActionPerformed
 
